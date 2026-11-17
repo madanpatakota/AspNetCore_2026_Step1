@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,10 +42,10 @@ app.MapGet("FirstRecord/{customername}", (string customername) =>
 );
 
 
-app.MapGet("/add/{ a:int }/{ b: int}" , (int a , int b)=>  a+b);
+app.MapGet("/add/{ a }/{ b}" , (int a , int b)=>  a+b);
 
 
-app.MapGet("/multiply/{a:int}/{b:int}", (int a, int b) =>
+app.MapGet("/multiply/{a}/{b}", (int a, int b) =>
 {
     int result = a * b;
     return $"The product of {a} and {b} is {result}.";
@@ -71,6 +72,10 @@ app.MapGet("/html", () =>
 
 
 //REturn html content
+
+
+//https://www.apsrtconline.in/eticket/oprs-api/rest/booking/customer/getAvailableServiceList
+
 
 //https://localhost:7273/htmlWithCSS
 app.MapGet("/htmlWithCSS", () =>
@@ -115,4 +120,96 @@ app.MapGet("/image", () =>
 });
 
 
+app.MapPost("/CreateRecord", () =>
+{
+      return "Record Created Successfully";
+});
+
+
+app.MapPost("/CreateEmployee", (Employee employee) =>
+{
+    return $"YOu have created Employee Successfully . So employee name {employee.Name} and Employee ID is {employee.Id}";
+});
+
+
+// assuming i am updating the meployee id whose is 1
+app.MapPut("UpdateEmployee/{id}", (Employee employee) =>
+{
+    return $"YOu have updated Employee Successfully . so employee detaisl are now {employee.Name} , {employee.Mail} , {employee.Salary} , {employee.Location}";
+});
+
+
+// assuming i am updating the meployee id whose is 1
+//Patching work - partial work
+
+//i will update the first record only. any way i wil pass as 1 
+
+//https://localhost:7273/PatchEmployee/1
+
+//Madan , madan@gmail.com
+app.MapPatch("PatchEmployee/{id}/{name}/{mail}", (int id , string name , string mail) =>
+{
+    //my original data
+    List<Employee> employees = new List<Employee>
+    {
+        new Employee { Id = 1, Name = "John", Mail = "John@gmail.com" , Location = "Baoglore" , Salary = "2000" },
+        new Employee { Id = 2, Name = "Peter", Mail = "peter@gamil.com" , Location = "Hyderabad" , Salary = "3000"}
+    };
+
+    Employee firstEmpoyee =  employees.First(x => x.Id == id);  //"JOHN"
+    firstEmpoyee.Name = name;
+    firstEmpoyee.Mail = mail;
+
+
+    return $"YOu have updated Employee Successfully . so employee detaisl are now {firstEmpoyee.Name} , {firstEmpoyee.Mail}";
+});
+
+
+//Madan , madan@gmail.com
+app.MapDelete("DeleteEmployee/{location}", (string location) =>
+{
+    //my original data
+    List<Employee> employees = new List<Employee>
+    {
+        new Employee { Id = 1, Name = "John", Mail = "John@gmail.com" , Location = "Baoglore" , Salary = "2000" },
+        new Employee { Id = 2, Name = "Peter", Mail = "peter@gamil.com" , Location = "Hyderabad" , Salary = "3000"}
+    };
+
+
+    // bangoore --- sql command   where    - List
+    // Madn
+    // John
+    // peter
+    // Mark
+    // Robert
+    // sql -- 
+
+    //Ienumrable - iq
+     List<Employee> employeeDatas = employees.Where(x => x.Location == location).ToList();  //"JOHN"
+
+    // here DB operations will be here.
+
+    return employeeDatas;   // Json data
+});
+
+
+
+
 app.Run();
+
+
+class Employee
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string Mail { get; set; }
+
+    public string Salary { get; set; }
+
+    public string Location { get; set; }
+
+
+
+}
