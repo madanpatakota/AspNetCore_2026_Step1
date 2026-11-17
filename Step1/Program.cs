@@ -3,13 +3,13 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddOpenApi();    // create documetni
 
 builder.Services.AddEndpointsApiExplorer(); // un
 
-var app = builder.Build();
+builder.Services.AddControllers();
 
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -36,10 +36,10 @@ app.MapGet("/", () => "API is running");
 app.MapGet("/FirstRecord", () => "API First REcord is - JOHN");
 
 
-//https://localhost:7273/FirstRecord/Peter
-app.MapGet("FirstRecord/{customername}", (string customername) =>
-    $"API First REcord is - {customername}"
-);
+////https://localhost:7273/FirstRecord/Peter
+//app.MapGet("FirstRecord/{customername}", (string customername) =>
+//    $"API First REcord is - {customername}"
+//);
 
 
 app.MapGet("/add/{ a }/{ b}" , (int a , int b)=>  a+b);
@@ -192,13 +192,12 @@ app.MapDelete("DeleteEmployee/{location}", (string location) =>
     return employeeDatas;   // Json data
 });
 
-
-
+app.MapControllers();
 
 app.Run();
 
 
-class Employee
+ public class Employee
 {
     public int Id { get; set; }
 
