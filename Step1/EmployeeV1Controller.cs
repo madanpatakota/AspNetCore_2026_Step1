@@ -8,10 +8,10 @@ namespace Step1
     //localhost:3456/api/Employee/_________________________________
     [ApiController]
     [Route("api/[Controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeV1Controller : ControllerBase
     {
 
-        public EmployeeController()
+        public EmployeeV1Controller()
         {
 
         }
