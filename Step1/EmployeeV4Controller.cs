@@ -1,18 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Step1.StatusCodes
 {
-
-
     //one person why interface uses of that ?
-
 
     interface IActionMD
     {
-       string  OK();
+        string OK();
     }
-
 
     class myActions : IActionMD
     {
@@ -21,7 +16,6 @@ namespace Step1.StatusCodes
             return "Success";
         }
     }
-
 
     class MyClass
     {
@@ -32,21 +26,17 @@ namespace Step1.StatusCodes
 
         public void Main1()
         {
-            var instanceOfMyactions =  getResult();
+            var instanceOfMyactions = getResult();
             instanceOfMyactions.OK();
         }
 
     }
 
 
-
     [ApiController]
     [Route("api/[Controller]")]
     public class EmployeeV4Controller : ControllerBase
     {
-
-
-
 
         private static List<Employee> employees = new List<Employee>
         {
@@ -167,7 +157,7 @@ namespace Step1.StatusCodes
 
 
 
-      
+
         [HttpPut]
         [Route("UpdateEmployee/{id}")]
         public IActionResult UpdateEmployee(
@@ -285,7 +275,7 @@ namespace Step1.StatusCodes
         //- cinema   - 150 ruppes
 
 
-         //   -- 500 rupees 
+        //   -- 500 rupees 
 
 
 
@@ -339,7 +329,7 @@ namespace Step1.StatusCodes
                 return StatusCode(403, "Access denied"); // 403 Forbidden
             }
 
-              return StatusCode(200 , "Access Granted"); // 200 OK
+            return StatusCode(200, "Access Granted"); // 200 OK
             //return Ok("Access granted"); // 200 OK
         }
 
